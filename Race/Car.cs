@@ -15,7 +15,7 @@ public class Car
     {
         if (isInLeftPosition())
         {
-            this.head.X = 130;
+            this.head.X = 140;
         }
 
     }
@@ -24,7 +24,7 @@ public class Car
     {
         if (isInRightPosition())
         {
-            this.head.X = 70;
+            this.head.X = 80;
         }
     }
 
@@ -78,12 +78,12 @@ public class Car
 
     private bool isInLeftPosition()
     {
-        return this.head.X == 70;
+        return this.head.X == 80;
     }
 
     private bool isInRightPosition()
     {
-        return this.head.X == 130;
+        return this.head.X == 140;
     }
 
 }

@@ -18,12 +18,6 @@ public class Game1 : Game
     private Car car;
     private Car leftCar;
 
-    private Car rightCar;
-
-    private float moveSpeed = 20f;
-
-    private KeyboardState keyboardState;
-
     public Game1()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -36,12 +30,11 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here  
-        _graphics.PreferredBackBufferWidth = 440;
+        _graphics.PreferredBackBufferWidth = 420;
         _graphics.PreferredBackBufferHeight = 600;
         _graphics.ApplyChanges();
-        car = new Car(new Point(70, 500));
-        leftCar = new Car(new Point(70, 300));
-        rightCar = new Car(new Point(190, 300));
+        car = new Car(new Point(80, 500));
+        leftCar = new Car(new Point(80, 300));
         base.Initialize();
     }
 
@@ -78,7 +71,8 @@ public class Game1 : Game
         GraphicsDevice.Clear(new Color(161, 170, 148));
         // TODO: Add your drawing code here
         _spriteBatch.Begin();
-        for (int j = 0; j < 27; j++)
+
+        for (int j = 1; j < 22; j++)
         {
             _spriteBatch.Draw(
                 square,
@@ -86,7 +80,8 @@ public class Game1 : Game
                 Color.Red
             );
         }
-        for (int j = 0; j < 27; j++)
+
+        for (int j = 1; j < 22; j++)
         {
             _spriteBatch.Draw(
                 square,
@@ -99,22 +94,37 @@ public class Game1 : Game
         {
             _spriteBatch.Draw(
                 square,
-                new Rectangle(280, j * 10 + 10, 2, 100),
+                new Rectangle(230, j * 10 + 10, 2, 100),
                 Color.Red
             );
         }
 
         _spriteBatch.Draw(
+            square,
+            new Rectangle(10, 500, 2, 92),
+            Color.Red
+        );
+
+        for (int j = 0; j < 50; j += 10)
+        {
+            _spriteBatch.Draw(
                 square,
-                new Rectangle(280, 500, 2, 92),
+                new Rectangle(10, j * 10 + 10, 2, 100),
                 Color.Red
             );
+        }
+
+        _spriteBatch.Draw(
+            square,
+            new Rectangle(230, 500, 2, 92),
+            Color.Red
+        );
 
         for (int i = 0; i < 60; i += 20)
         {
             _spriteBatch.Draw(
                 square,
-                new Rectangle(250, 300 + i, 20, 20),
+                new Rectangle(200, 500 + i, 20, 20),
                 Color.Red
             );
         }
@@ -124,14 +134,13 @@ public class Game1 : Game
 
             _spriteBatch.Draw(
                 square,
-                new Rectangle(10, 300 + i, 20, 20),
+                new Rectangle(20, 300 + i, 20, 20),
                 Color.Red
             );
         }
 
         car.draw(_spriteBatch, square);
         leftCar.draw(_spriteBatch, square);
-        rightCar.draw(_spriteBatch, square);
 
         _spriteBatch.End();
 
