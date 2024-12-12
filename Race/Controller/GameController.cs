@@ -20,7 +20,7 @@ class GameController
     {
         //draw left street
         int startPoint = Configuration.Padding * 2;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
 
             for (int j = 0; j < 3; j++)
@@ -31,12 +31,24 @@ class GameController
                     Color.Red
                 );
             }
-            startPoint += Configuration.Block * 4;
+            startPoint += Configuration.Block * 6;
         }
 
-
         //draw right street
+        startPoint = Configuration.Padding * 2;
+        for (int i = 0; i < 5; i++)
+        {
 
+            for (int j = 0; j < 3; j++)
+            {
+                spriteBatch.Draw(
+                    texture2D,
+                    new Rectangle(Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * j, Configuration.Block, Configuration.Block),
+                    Color.Red
+                );
+            }
+            startPoint += Configuration.Block * 6;
+        }
 
     }
 
