@@ -24,47 +24,14 @@ class GameController
 
     private Random rand;
 
+    public Street LeftStreet;
+
     public GameController()
     {
         Enemies = new EnemyCar[3];
         rand = new Random();
         Enemies[0] = new EnemyCar(new Point(80, 0), _Sprite, _Texture);
-    }
-
-    public void DrawStreet(SpriteBatch spriteBatch, Texture2D texture2D)
-    {
-        //draw left street
-        int startPoint = Configuration.Padding * 2;
-        for (int i = 0; i < 5; i++)
-        {
-
-            for (int j = 0; j < 3; j++)
-            {
-                spriteBatch.Draw(
-                    texture2D,
-                    new Rectangle(Configuration.Block, startPoint + Configuration.Block * j, Configuration.Block, Configuration.Block),
-                    Color.Red
-                );
-            }
-            startPoint += Configuration.Block * 6;
-        }
-
-        //draw right street
-        startPoint = Configuration.Padding * 2;
-        for (int i = 0; i < 5; i++)
-        {
-
-            for (int j = 0; j < 3; j++)
-            {
-                spriteBatch.Draw(
-                    texture2D,
-                    new Rectangle(Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * j, Configuration.Block, Configuration.Block),
-                    Color.Red
-                );
-            }
-            startPoint += Configuration.Block * 6;
-        }
-
+        LeftStreet = new Street(Configuration.Block, Configuration.Padding * 2 + Configuration.Block);
     }
 
     public void StartGame(Car player)
@@ -77,20 +44,26 @@ class GameController
     public void StartWave(float deltaTime)
     {
         Enemies[0].Move(deltaTime);
-        /*for (int i = 0; i < Enemies.Length; i++)
-        {
-            
-        }*/
+        LeftStreet.MoveStreet(deltaTime);
     }
 
     public void Update(SpriteBatch _spriteBatch, Texture2D texture2D)
     {
         Enemies[0].Update(_spriteBatch, texture2D);
-        /*for (int i = 0; i < Enemies.Length; i++)
-        {
-            Enemies[i].Update(_spriteBatch, texture2D);
-        }*/
+        LeftStreet.Update(_spriteBatch, texture2D);
     }
+
+    private Point[] BuildStreet(int direction)
+    {
+        Point[] street = new Point[3];
+        int startPoint = Configuration.Padding * 2;
+        street[0] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block);
+        street[1] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * 2);
+        street[2] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * 3);
+        return street;
+    }
+
+
 
 
 }

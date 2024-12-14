@@ -81,7 +81,7 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         screen.DrawAreaGame(_spriteBatch, square);
-        _gameController.DrawStreet(_spriteBatch, square);
+
         car.Update(_spriteBatch, square);
         _gameController.Update(_spriteBatch, square);
         _spriteBatch.End();
