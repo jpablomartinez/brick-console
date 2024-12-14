@@ -16,6 +16,21 @@ class GameController
 
     public Car player { get; set; }
 
+    public EnemyCar[] Enemies;
+
+    public SpriteBatch _Sprite;
+
+    public Texture2D _Texture;
+
+    private Random rand;
+
+    public GameController()
+    {
+        Enemies = new EnemyCar[3];
+        rand = new Random();
+        Enemies[0] = new EnemyCar(new Point(80, 0), _Sprite, _Texture);
+    }
+
     public void DrawStreet(SpriteBatch spriteBatch, Texture2D texture2D)
     {
         //draw left street
@@ -59,16 +74,23 @@ class GameController
         this.player = player;
     }
 
-    public async void StartWave()
+    public void StartWave(float deltaTime)
     {
-        for (int i = 0; i < 10 * Level; i++)
+        Enemies[0].Move(deltaTime);
+        /*for (int i = 0; i < Enemies.Length; i++)
         {
-
-            await Task.Delay(1000);
-        }
+            
+        }*/
     }
 
-
+    public void Update(SpriteBatch _spriteBatch, Texture2D texture2D)
+    {
+        Enemies[0].Update(_spriteBatch, texture2D);
+        /*for (int i = 0; i < Enemies.Length; i++)
+        {
+            Enemies[i].Update(_spriteBatch, texture2D);
+        }*/
+    }
 
 
 }

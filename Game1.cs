@@ -58,6 +58,8 @@ public class Game1 : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
         // TODO: Add your update logic here
         KeyboardState state = Keyboard.GetState();
         if (state.IsKeyDown(Keys.Left))
@@ -68,7 +70,7 @@ public class Game1 : Game
         {
             car.MoveRight();
         }
-
+        _gameController.StartWave(deltaTime);
         base.Update(gameTime);
     }
 
@@ -79,17 +81,10 @@ public class Game1 : Game
         _spriteBatch.Begin();
 
         screen.DrawAreaGame(_spriteBatch, square);
-
         _gameController.DrawStreet(_spriteBatch, square);
-
-
-        car.Draw(_spriteBatch, square);
-        leftCar.Draw(_spriteBatch, square);
-
+        car.Update(_spriteBatch, square);
+        _gameController.Update(_spriteBatch, square);
         _spriteBatch.End();
-
-
-
         base.Draw(gameTime);
     }
 }

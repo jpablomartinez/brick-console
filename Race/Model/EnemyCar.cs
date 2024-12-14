@@ -2,30 +2,37 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public class Car
+public class EnemyCar
 {
     public Point Head { get; private set; }
+    public SpriteBatch _Sprite { get; set; }
 
-    public Car(Point head)
+    public Texture2D _Texture { get; set; }
+
+    private Random rand;
+
+    public EnemyCar(Point head, SpriteBatch sprite, Texture2D texture)
     {
         this.Head = head;
+        this._Sprite = sprite;
+        this._Texture = texture;
+        this.rand = new Random();
+    }
+
+    public void Move(float deltaTime)
+    {
+        this.Head.Y += (int)(20 * (float)deltaTime * 12);
+        Destroy();
     }
 
     public void MoveRight()
     {
-        if (IsInLeftPosition())
-        {
-            this.Head.X = 140;
-        }
-
+        this.Head.X = 140;
     }
 
     public void MoveLeft()
     {
-        if (IsInRightPosition())
-        {
-            this.Head.X = 80;
-        }
+        this.Head.X = 80;
     }
 
     public void Update(SpriteBatch _spriteBatch, Texture2D texture2D)
@@ -109,6 +116,15 @@ public class Car
 
     public void Destroy()
     {
-        throw new NotImplementedException();
+        if (GetBody()[1] >= 600)
+        {
+            ResetPosition();
+        }
+    }
+
+    public void ResetPosition()
+    {
+        int position = rand.Next(2);
+        this.Head = new Point(position == 1 ? 80 : 140, 0);
     }
 }
