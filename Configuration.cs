@@ -7,8 +7,8 @@ static class Configuration
 
     public const int LineWidth = Block / 10;
 
-    public const int HeightAreaGame = 580;
+    public const int HeightAreaGame = 400;
 
-    public const int WidthAreaGame = 220;
+    public const int WidthAreaGame = 200;
 
 }

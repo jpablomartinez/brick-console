@@ -16,7 +16,7 @@ class GameController
 
     public Car player { get; set; }
 
-    public EnemyCar[] Enemies;
+    //public EnemyCar[] Enemies;
 
     public SpriteBatch _Sprite;
 
@@ -24,14 +24,32 @@ class GameController
 
     private Random rand;
 
-    public Street LeftStreet;
+    public int[,] Matrix;
+
+    private float CurrentTime;
+
+    private bool IsPlaying;
 
     public GameController()
     {
-        Enemies = new EnemyCar[3];
+        //Enemies = new EnemyCar[3];
         rand = new Random();
-        Enemies[0] = new EnemyCar(new Point(80, 0), _Sprite, _Texture);
-        LeftStreet = new Street(Configuration.Block, Configuration.Padding * 2 + Configuration.Block);
+        //Enemies[0] = new EnemyCar(new Point(80, 0), _Sprite, _Texture);
+        Matrix = new int[20, 10];
+        int fillValue = 0;
+        int current = 0;
+        for (int i = 0; i < 20; i++)
+        {
+            if ((fillValue == 0 && current == 2) || (fillValue == 1 && current == 3))
+            {
+                fillValue = 1 - fillValue;
+                current = 0;
+            }
+            Matrix[i, 0] = fillValue;
+            Matrix[i, 9] = fillValue;
+            current++;
+        }
+        IsPlaying = true;
     }
 
     public void StartGame(Car player)
@@ -39,31 +57,67 @@ class GameController
         Level = 1;
         Score = 0;
         this.player = player;
+        for (int i = 0; i < 20; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                Console.Write("{0} ", Matrix[i, j]);
+            }
+            Console.WriteLine();
+        }
+
+    }
+
+    public void UpdateStreet()
+    {
+        int firstColumnLastElement = Matrix[19, 0];
+        int lastColumnLastElement = Matrix[19, 9];
+
+        for (int row = 19; row > 0; row--)
+        {
+            Matrix[row, 0] = Matrix[row - 1, 0];
+            Matrix[row, 9] = Matrix[row - 1, 9];
+        }
+
+        Matrix[0, 0] = firstColumnLastElement;
+        Matrix[0, 9] = lastColumnLastElement;
     }
 
     public void StartWave(float deltaTime)
     {
-        Enemies[0].Move(deltaTime);
-        LeftStreet.MoveStreet(deltaTime);
+
+
     }
 
-    public void Update(SpriteBatch _spriteBatch, Texture2D texture2D)
+    public void Update(GameTime gameTime)
     {
-        Enemies[0].Update(_spriteBatch, texture2D);
-        LeftStreet.Update(_spriteBatch, texture2D);
+        if (IsPlaying)
+        {
+            CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (CurrentTime > 0.2f)
+            {
+                UpdateStreet();
+                CurrentTime = 0;
+            }
+        }
     }
 
-    private Point[] BuildStreet(int direction)
+    public void Draw(SpriteBatch _spriteBatch, Texture2D texture2D)
     {
-        Point[] street = new Point[3];
-        int startPoint = Configuration.Padding * 2;
-        street[0] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block);
-        street[1] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * 2);
-        street[2] = new Point(direction == 1 ? Configuration.Block : Configuration.WidthAreaGame - Configuration.Padding * 2, startPoint + Configuration.Block * 3);
-        return street;
+        for (int i = 0; i < 20; i++)
+        {
+            for (int j = 0; j < 10; j++)
+            {
+                if (Matrix[i, j] == 1)
+                {
+                    _spriteBatch.Draw(
+                        texture2D,
+                        new Rectangle(Configuration.Padding + j * Configuration.Block, Configuration.Padding + Configuration.Block * i, Configuration.Block, Configuration.Block),
+                        Color.Red
+                    );
+                }
+            }
+        }
+
     }
-
-
-
-
 }

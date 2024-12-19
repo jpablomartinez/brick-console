@@ -4,111 +4,46 @@ using Microsoft.Xna.Framework.Graphics;
 
 public class Car
 {
-    public Point Head { get; private set; }
+    public bool IsInLeftPosition { get; set; }
 
-    public Car(Point head)
+    public int[,] Matrix { get; set; }
+
+    public Car(bool left, int[,] matrix)
     {
-        this.Head = head;
+        this.IsInLeftPosition = left;
+        this.Matrix = matrix;
+        ChangePosition(0, 1);
+    }
+
+    public void ChangePosition(int factor, int value)
+    {
+        this.Matrix[16, 3 + factor] = value;
+        this.Matrix[17, 3 + factor] = value;
+        this.Matrix[18, 3 + factor] = value;
+        this.Matrix[17, 2 + factor] = value;
+        this.Matrix[17, 4 + factor] = value;
+        this.Matrix[19, 2 + factor] = value;
+        this.Matrix[19, 4 + factor] = value;
     }
 
     public void MoveRight()
     {
-        if (IsInLeftPosition())
+        if (IsInLeftPosition)
         {
-            this.Head.X = 140;
+            this.IsInLeftPosition = false;
+            ChangePosition(0, 0);
+            ChangePosition(3, 1);
         }
-
     }
 
     public void MoveLeft()
     {
-        if (IsInRightPosition())
+        if (!IsInLeftPosition)
         {
-            this.Head.X = 80;
+            this.IsInLeftPosition = true;
+            ChangePosition(3, 0);
+            ChangePosition(0, 1);
         }
     }
 
-    public void Update(SpriteBatch _spriteBatch, Texture2D texture2D)
-    {
-        if (Head == null)
-        {
-            throw new NullReferenceException("MISSING ENTRY POINT");
-        }
-        int[] body = GetBody();
-        int[] leftWheels = GetLeftWheels();
-        int[] rightWheels = GetRightWheels();
-
-        for (int i = 0; i < body.Length; i += 2)
-        {
-            _spriteBatch.Draw(
-                texture2D,
-                new Rectangle(body[i], body[i + 1], Configuration.Block, Configuration.Block),
-                Color.Red
-            );
-        }
-
-        for (int i = 0; i < leftWheels.Length; i += 2)
-        {
-            _spriteBatch.Draw(
-                texture2D,
-                new Rectangle(leftWheels[i], leftWheels[i + 1], Configuration.Block, Configuration.Block),
-                Color.Red
-            );
-        }
-
-        for (int i = 0; i < rightWheels.Length; i += 2)
-        {
-            _spriteBatch.Draw(
-                texture2D,
-                new Rectangle(rightWheels[i], rightWheels[i + 1], Configuration.Block, Configuration.Block),
-                Color.Red
-            );
-        }
-
-    }
-
-    private bool IsInLeftPosition()
-    {
-        return this.Head.X == 80;
-    }
-
-    private bool IsInRightPosition()
-    {
-        return this.Head.X == 140;
-    }
-
-    private bool DetectCollision()
-    {
-        return false;
-    }
-
-    private int[] GetBody()
-    {
-        return [
-            Head.X, Head.Y,
-            Head.X, Head.Y + Configuration.Block,
-            Head.X, Head.Y + Configuration.Block * 2
-        ];
-    }
-
-    private int[] GetLeftWheels()
-    {
-        return [
-            Head.X - Configuration.Block, Head.Y + Configuration.Block,
-            Head.X - Configuration.Block, Head.Y + Configuration.Block * 3,
-        ];
-    }
-
-    private int[] GetRightWheels()
-    {
-        return [
-            Head.X + Configuration.Block, Head.Y + Configuration.Block,
-            Head.X + Configuration.Block, Head.Y + Configuration.Block * 3,
-        ];
-    }
-
-    public void Destroy()
-    {
-        throw new NotImplementedException();
-    }
 }

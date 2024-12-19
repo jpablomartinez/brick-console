@@ -39,8 +39,9 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 420;
         _graphics.PreferredBackBufferHeight = 600;
         _graphics.ApplyChanges();
-        car = new Car(new Point(80, 500));
-        leftCar = new Car(new Point(80, 300));
+        //leftCar = new Car(new Point(80, 300));
+        car = new Car(true, _gameController.Matrix);
+        _gameController.StartGame(car);
         base.Initialize();
     }
 
@@ -70,7 +71,8 @@ public class Game1 : Game
         {
             car.MoveRight();
         }
-        _gameController.StartWave(deltaTime);
+        //_gameController.StartWave(deltaTime);
+        _gameController.Update(gameTime);
         base.Update(gameTime);
     }
 
@@ -82,8 +84,8 @@ public class Game1 : Game
 
         screen.DrawAreaGame(_spriteBatch, square);
 
-        car.Update(_spriteBatch, square);
-        _gameController.Update(_spriteBatch, square);
+        //car.Update(_spriteBatch, square);
+        _gameController.Draw(_spriteBatch, square);
         _spriteBatch.End();
         base.Draw(gameTime);
     }
