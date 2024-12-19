@@ -16,7 +16,6 @@ public class Game1 : Game
     private Texture2D square;
 
     private Car car;
-    private Car leftCar;
 
     private Screen screen;
 
@@ -39,7 +38,6 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 420;
         _graphics.PreferredBackBufferHeight = 600;
         _graphics.ApplyChanges();
-        //leftCar = new Car(new Point(80, 300));
         car = new Car(true, _gameController.Matrix);
         _gameController.StartGame(car);
         base.Initialize();
@@ -79,13 +77,13 @@ public class Game1 : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(new Color(161, 170, 148));
-        // TODO: Add your drawing code here
+
         _spriteBatch.Begin();
 
         screen.DrawAreaGame(_spriteBatch, square);
 
-        //car.Update(_spriteBatch, square);
         _gameController.Draw(_spriteBatch, square);
+
         _spriteBatch.End();
         base.Draw(gameTime);
     }

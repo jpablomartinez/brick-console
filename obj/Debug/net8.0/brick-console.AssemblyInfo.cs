@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("brick-console")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+af20c3f43ba65cc6ed0d0faca99f471c9e46d326")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3b1b62b524bc3367e92fab33fdae877410a8fd9")]
 [assembly: System.Reflection.AssemblyProductAttribute("brick-console")]
 [assembly: System.Reflection.AssemblyTitleAttribute("brick-console")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -12,8 +12,6 @@ class GameController
 
     public int MaxScore { get; private set; }
 
-    private int Cars;
-
     public Car player { get; set; }
 
     public EnemyCar[] Enemies;
