@@ -71,7 +71,7 @@ public class Game1 : Game
         {
             car.MoveRight();
         }
-        //_gameController.StartWave(deltaTime);
+        _gameController.StartWave(deltaTime);
         _gameController.Update(gameTime);
         base.Update(gameTime);
     }

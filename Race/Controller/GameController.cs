@@ -16,7 +16,7 @@ class GameController
 
     public Car player { get; set; }
 
-    //public EnemyCar[] Enemies;
+    public EnemyCar[] Enemies;
 
     public SpriteBatch _Sprite;
 
@@ -32,9 +32,8 @@ class GameController
 
     public GameController()
     {
-        //Enemies = new EnemyCar[3];
+        Enemies = new EnemyCar[3];
         rand = new Random();
-        //Enemies[0] = new EnemyCar(new Point(80, 0), _Sprite, _Texture);
         Matrix = new int[20, 10];
         int fillValue = 0;
         int current = 0;
@@ -49,6 +48,7 @@ class GameController
             Matrix[i, 9] = fillValue;
             current++;
         }
+        Enemies[0] = new EnemyCar(0, Matrix);
         IsPlaying = true;
     }
 
@@ -65,7 +65,6 @@ class GameController
             }
             Console.WriteLine();
         }
-
     }
 
     public void UpdateStreet()
@@ -85,6 +84,11 @@ class GameController
 
     public void StartWave(float deltaTime)
     {
+        if (IsPlaying)
+        {
+            //Enemies[0].MoveDown(1, 0);
+
+        }
 
 
     }
