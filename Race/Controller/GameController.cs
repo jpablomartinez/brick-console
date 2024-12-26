@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 class GameController
 {
+    const int LEFT = 3;
+    const int RIGHT = 6;
+
     public int Level { get; private set; }
     public int Score { get; private set; }
 
@@ -16,6 +19,8 @@ class GameController
 
     public EnemyCar[] Enemies;
 
+    private int[] Waves;
+
     public SpriteBatch _Sprite;
 
     public Texture2D _Texture;
@@ -26,13 +31,21 @@ class GameController
 
     private float CurrentTime;
 
+    private float WaitTime;
+
+    private int ActualCar;
+
     private bool IsPlaying;
 
     public GameController()
     {
-        Enemies = new EnemyCar[3];
+        CurrentTime = 0;
+        WaitTime = 0;
+        Enemies = new EnemyCar[2];
         rand = new Random();
         Matrix = new int[20, 10];
+        Waves = new int[4];
+        Waves = [0, 1, 2, 3];
         int fillValue = 0;
         int current = 0;
         for (int i = 0; i < 20; i++)
@@ -46,23 +59,21 @@ class GameController
             Matrix[i, 9] = fillValue;
             current++;
         }
-        Enemies[0] = new EnemyCar(0, Matrix);
+        int first = rand.Next(0, 4);
+        int second = rand.Next(0, 4);
+        Enemies[0] = new EnemyCar(0, first <= 1 ? LEFT : RIGHT, Matrix);
+        Enemies[1] = new EnemyCar(0, second <= 1 ? LEFT : RIGHT, Matrix);
+        Enemies[1].Ready = false;
         IsPlaying = true;
     }
+
+
 
     public void StartGame(Car player)
     {
         Level = 1;
         Score = 0;
         this.player = player;
-        for (int i = 0; i < 20; i++)
-        {
-            for (int j = 0; j < 10; j++)
-            {
-                Console.Write("{0} ", Matrix[i, j]);
-            }
-            Console.WriteLine();
-        }
     }
 
     public void UpdateStreet()
@@ -80,26 +91,37 @@ class GameController
         Matrix[0, 9] = lastColumnLastElement;
     }
 
-    public void StartWave(float deltaTime)
-    {
-        if (IsPlaying)
-        {
-            //Enemies[0].MoveDown(1, 0);
-
-        }
-
-
-    }
-
     public void Update(GameTime gameTime)
     {
         if (IsPlaying)
         {
             CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            WaitTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (CurrentTime > 0.2f)
             {
                 UpdateStreet();
+                for (int i = 0; i < 2; i++)
+                {
+                    if (Enemies[i].Ready)
+                    {
+                        Enemies[i].Clear();
+                        Enemies[i].MoveDown();
+                    }
+                }
                 CurrentTime = 0;
+            }
+            if (WaitTime > 2.8f)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (!Enemies[i].Ready)
+                    {
+                        Enemies[i].Ready = true;
+                        int first = rand.Next(0, 4);
+                        Enemies[i] = new EnemyCar(0, first <= 1 ? LEFT : RIGHT, Matrix);
+                    }
+                }
+                WaitTime = 0;
             }
         }
     }

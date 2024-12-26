@@ -15,6 +15,8 @@ public class Game1 : Game
 
     private Texture2D square;
 
+    private Texture2D BackgroundTexture;
+
     private Car car;
 
     private Screen screen;
@@ -46,7 +48,7 @@ public class Game1 : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        square = new Texture2D(GraphicsDevice, 1, 1);
+        square = new Texture2D(GraphicsDevice, 1, 1);//Content.Load<Texture2D>("Sprites/full.png"); //new Texture2D(GraphicsDevice, 1, 1);
         square.SetData(new[] { Color.Black });
 
         // TODO: use this.Content to load your game content here
@@ -69,7 +71,6 @@ public class Game1 : Game
         {
             car.MoveRight();
         }
-        _gameController.StartWave(deltaTime);
         _gameController.Update(gameTime);
         base.Update(gameTime);
     }
