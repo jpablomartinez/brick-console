@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -14,6 +15,10 @@ public class Game1 : Game
     int Height;
 
     private Texture2D square;
+
+    private Texture2D GridSquare;
+
+    private Texture2D Limit;
 
     private Texture2D BackgroundTexture;
 
@@ -37,19 +42,31 @@ public class Game1 : Game
     protected override void Initialize()
     {
         // TODO: Add your initialization logic here  
-        _graphics.PreferredBackBufferWidth = 420;
-        _graphics.PreferredBackBufferHeight = 600;
+        _graphics.PreferredBackBufferWidth = 360;
+        _graphics.PreferredBackBufferHeight = 420;
         _graphics.ApplyChanges();
         car = new Car(true, _gameController.Matrix);
         _gameController.StartGame(car);
         base.Initialize();
     }
 
+    public Texture2D LoadTexture(GraphicsDevice graphicsDevice, string filePath)
+    {
+        using (var fileStream = File.OpenRead(filePath))
+        {
+            return Texture2D.FromStream(graphicsDevice, fileStream);
+        }
+    }
+
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        square = new Texture2D(GraphicsDevice, 1, 1);//Content.Load<Texture2D>("Sprites/full.png"); //new Texture2D(GraphicsDevice, 1, 1);
-        square.SetData(new[] { Color.Black });
+        square = LoadTexture(GraphicsDevice, "Content/Sprites/full.png"); //new Texture2D(GraphicsDevice, 1, 1);//Content.Load<Texture2D>("Sprites/full.png"); //new Texture2D(GraphicsDevice, 1, 1);
+        BackgroundTexture = LoadTexture(GraphicsDevice, "Content/Sprites/opacity3.png");
+        Limit = new Texture2D(GraphicsDevice, 1, 1);
+        GridSquare = new Texture2D(GraphicsDevice, 1, 1);
+        GridSquare.SetData(new[] { Color.White });
+        Limit.SetData(new[] { Color.Black });
 
         // TODO: use this.Content to load your game content here
     }
@@ -81,9 +98,9 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        screen.DrawAreaGame(_spriteBatch, square);
+        screen.DrawAreaGame(_spriteBatch, Limit);
 
-        _gameController.Draw(_spriteBatch, square);
+        _gameController.Draw(_spriteBatch, GridSquare, BackgroundTexture);
 
         _spriteBatch.End();
         base.Draw(gameTime);

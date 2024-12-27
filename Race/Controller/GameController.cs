@@ -97,7 +97,7 @@ class GameController
         {
             CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             WaitTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (CurrentTime > 0.2f)
+            if (CurrentTime > 0.1f)
             {
                 UpdateStreet();
                 for (int i = 0; i < 2; i++)
@@ -110,7 +110,7 @@ class GameController
                 }
                 CurrentTime = 0;
             }
-            if (WaitTime > 2.8f)
+            if (WaitTime > 1.4f)
             {
                 for (int i = 0; i < 2; i++)
                 {
@@ -126,20 +126,55 @@ class GameController
         }
     }
 
-    public void Draw(SpriteBatch _spriteBatch, Texture2D texture2D)
+    public void Draw(SpriteBatch _spriteBatch, Texture2D texture2D, Texture2D background)
     {
+
+        Color borderColor = Color.Black;
+        Color innerColor = new Color(161, 170, 148);
+        Color innerColor2 = Color.Black;
+
+        int blockSize = Configuration.Block - 2;
+        int borderThickness = 3;
+        int secondFillPadding = 2;
+
         for (int i = 0; i < 20; i++)
         {
             for (int j = 0; j < 10; j++)
             {
-                if (Matrix[i, j] == 1)
-                {
-                    _spriteBatch.Draw(
-                        texture2D,
-                        new Rectangle(Configuration.Padding + j * Configuration.Block, Configuration.Padding + Configuration.Block * i, Configuration.Block, Configuration.Block),
-                        Color.Red
-                    );
-                }
+                int x = Configuration.Padding + j * Configuration.Block;
+                int y = Configuration.Padding + i * Configuration.Block;
+
+                _spriteBatch.Draw(
+                    texture2D,
+                    new Rectangle(x, y, blockSize, blockSize),
+                    Matrix[i, j] == 1 ? borderColor : new Color(0, 0, 0, 0.04f)
+                );
+
+                // Draw the inner fill
+                _spriteBatch.Draw(
+                    texture2D,
+                    new Rectangle(
+                        x + borderThickness,
+                        y + borderThickness,
+                        blockSize - 2 * borderThickness,
+                        blockSize - 2 * borderThickness
+                    ),
+                    innerColor
+                );
+
+                // Draw the second fill
+                _spriteBatch.Draw(
+                    texture2D,
+                    new Rectangle(
+                        x + borderThickness + secondFillPadding,
+                        y + borderThickness + secondFillPadding,
+                        blockSize - 2 * (borderThickness + secondFillPadding),
+                        blockSize - 2 * (borderThickness + secondFillPadding)
+                    ),
+                    Matrix[i, j] == 1 ? innerColor2 : new Color(0, 0, 0, 0.04f)
+                );
+
+
             }
         }
 

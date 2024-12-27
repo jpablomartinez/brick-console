@@ -12,7 +12,7 @@ class Screen
             spriteBatch.Draw(
                 texture2D,
                 new Rectangle(j + Configuration.Padding, Configuration.Padding, Configuration.Block, Configuration.LineWidth),
-                Color.Red
+                Color.Black
             );
         }
 
@@ -22,7 +22,7 @@ class Screen
             spriteBatch.Draw(
                 texture2D,
                 new Rectangle(j + Configuration.Padding, Configuration.HeightAreaGame + Configuration.Padding, Configuration.Block, Configuration.LineWidth),
-                Color.Red
+                Color.Black
             );
         }
 
@@ -32,7 +32,7 @@ class Screen
             spriteBatch.Draw(
                 texture2D,
                 new Rectangle(Configuration.WidthAreaGame + Configuration.Padding, j + Configuration.Padding, Configuration.LineWidth, Configuration.Block),
-                Color.Red
+                Color.Black
             );
         }
 
@@ -42,7 +42,7 @@ class Screen
             spriteBatch.Draw(
                 texture2D,
                 new Rectangle(Configuration.Padding, j + Configuration.Padding, Configuration.LineWidth, Configuration.Block),
-                Color.Red
+                Color.Black
             );
         }
 
